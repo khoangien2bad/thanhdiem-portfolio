@@ -372,6 +372,46 @@ body.mode-rvw .art::after{content:attr(data-slot);position:absolute;top:8px;left
 body.mode-rvw .art[data-slot]{outline:2px dashed var(--secondary);outline-offset:-2px}
 @media print{.rvw,.hd,#bar,#pre{display:none!important}}
 
+/* ── 18 ONE-PAGE SNAP MỀM (hướng A) ─────────────────────────
+   Cuộn tới đâu tự hít vào đầu section tới đó. Dùng `proximity`
+   chứ không phải `mandatory`, nên mục dài như 8 bài Fanpage
+   vẫn cuộn tự do bên trong, không bị giật hay kẹt.
+   ═══════════════════════════════════════════════════════════ */
+@media (min-width:992px){
+  @media (prefers-reduced-motion:no-preference){
+    html{scroll-snap-type:y proximity}
+    .sheet{scroll-snap-align:start}
+    /* filmstrip ghim ngang và marquee phải nằm ngoài snap, nếu không sẽ phá hiệu ứng trượt */
+    .pin,.pin *,.mq,.mq *{scroll-snap-align:none!important}
+  }
+}
+
+/* 18.1 · chuyển cảnh giữa các section, nhẹ tay như lật slide */
+.sheet>.wrap{transition:opacity .7s var(--e),transform .7s var(--e)}
+@media (prefers-reduced-motion:no-preference){
+  .sheet:not(.chap):not(.seen)>.wrap{opacity:.36;transform:translateY(18px) scale(.99)}
+}
+.sheet.seen>.wrap{opacity:1;transform:none}
+
+/* 18.2 · THANH CHẤM ĐIỀU HƯỚNG bên phải */
+.rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:88;
+  display:flex;flex-direction:column;gap:9px;align-items:flex-end}
+@media(max-width:1199px){.rail{display:none}}
+.rail__d{position:relative;width:26px;height:12px;display:flex;align-items:center;
+  justify-content:flex-end;cursor:pointer;background:none;border:0;padding:0}
+.rail__d i{display:block;width:7px;height:7px;border-radius:99px;background:var(--secondary);
+  opacity:.35;transition:all .4s var(--e)}
+.rail__d:hover i{opacity:.75;transform:scale(1.3)}
+.rail__d.on i{opacity:1;width:22px;border-radius:99px}
+.rail__d span{position:absolute;right:34px;top:50%;transform:translateY(-50%) translateX(6px);
+  white-space:nowrap;font-size:11.5px;font-weight:800;letter-spacing:.02em;
+  background:var(--primary);color:#fff;padding:6px 12px;border-radius:99px;
+  opacity:0;pointer-events:none;transition:opacity .3s var(--e),transform .3s var(--e)}
+.rail__d:hover span,.rail__d:focus-visible span{opacity:1;transform:translateY(-50%) translateX(0)}
+body.lb-open .rail{opacity:0;pointer-events:none}
+@media print{.rail{display:none}}
+
+
 /* ── 17 NÂNG CẤP VISUAL v9 ───────────────────────────────────
    Ngôn ngữ mới lấy từ file tham chiếu Khoa gửi: nhãn dán chữ dày,
    huy hiệu số liệu, bút dạ quang, khung điện thoại, khung laptop,
@@ -1817,6 +1857,69 @@ rb.addEventListener('click',()=>{
 })();
 sizePin();stripTick();
 addEventListener('load',()=>{sizePin();stripTick();});
+
+/* ═══ 12 · ONE-PAGE: chấm điều hướng, phím tắt, đánh dấu section đang xem ═══ */
+(function(){
+  const sheets=[...document.querySelectorAll('.sheet')];
+  if(!sheets.length) return;
+
+  // nhãn cho từng section, lấy từ tiêu đề thật trên trang
+  const label=el=>{
+    const h=el.querySelector('h1,h2,h3');
+    let t=(h?h.textContent:'').replace(/\s+/g,' ').trim();
+    if(!t){const k=el.querySelector('.kick');t=k?k.textContent.trim():'Mục';}
+    return t.length>26?t.slice(0,25).trim()+'…':t;
+  };
+
+  const rail=document.createElement('nav');
+  rail.className='rail'; rail.setAttribute('aria-label','Điều hướng nhanh theo mục');
+  sheets.forEach((sec,i)=>{
+    const b=document.createElement('button');
+    b.className='rail__d'; b.type='button';
+    b.innerHTML='<span></span><i></i>';
+    b.querySelector('span').textContent=label(sec);
+    b.setAttribute('aria-label','Tới mục '+label(sec));
+    b.addEventListener('click',()=>go(i));
+    rail.appendChild(b);
+  });
+  document.body.appendChild(rail);
+  const dots=[...rail.children];
+
+  let cur=0;
+  function go(i){
+    i=Math.max(0,Math.min(sheets.length-1,i));
+    sheets[i].scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'start'});
+  }
+
+  // section nào đang chiếm khung nhìn thì sáng lên
+  const vio=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('seen');vio.unobserve(e.target);}});
+  },{rootMargin:'0px 0px -12% 0px',threshold:.04});
+  sheets.forEach(s=>vio.observe(s));
+  // lưới an toàn: nếu vì lý do gì đó observer không bắn, vẫn hiện đủ sau 2 giây
+  setTimeout(()=>sheets.forEach(s=>s.classList.add('seen')),2000);
+
+  function mark(){
+    const line=scrollY+innerHeight*0.3;
+    let best=0;
+    sheets.forEach((s,i)=>{if(s.getBoundingClientRect().top+scrollY<=line) best=i;});
+    if(best!==cur){cur=best;dots.forEach((d,i)=>d.classList.toggle('on',i===cur));}
+  }
+  addEventListener('scroll',()=>requestAnimationFrame(mark),{passive:true});
+  mark();
+
+  // phím mũi tên và PageUp/PageDown nhảy từng mục
+  addEventListener('keydown',e=>{
+    if(document.getElementById('lb').dataset.open==='1') return;
+    const t=e.target;
+    if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    if(e.key==='PageDown'){e.preventDefault();go(cur+1);}
+    else if(e.key==='PageUp'){e.preventDefault();go(cur-1);}
+    else if(e.key==='Home'){e.preventDefault();go(0);}
+    else if(e.key==='End'){e.preventDefault();go(sheets.length-1);}
+  });
+})();
+
 </script>
 </body>
 </html>
