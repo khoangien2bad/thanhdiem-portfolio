@@ -378,12 +378,13 @@ body.mode-rvw .art[data-slot]{outline:2px dashed var(--secondary);outline-offset
    vẫn cuộn tự do bên trong, không bị giật hay kẹt.
    ═══════════════════════════════════════════════════════════ */
 @media (min-width:992px){
-  @media (prefers-reduced-motion:no-preference){
-    html{scroll-snap-type:y proximity}
-    .sheet{scroll-snap-align:start}
-    /* filmstrip ghim ngang và marquee phải nằm ngoài snap, nếu không sẽ phá hiệu ứng trượt */
-    .pin,.pin *,.mq,.mq *{scroll-snap-align:none!important}
-  }
+  /* snap KHÔNG nằm trong `prefers-reduced-motion` — nó là hành vi cuộn,
+     không phải hiệu ứng. Máy tắt animation vẫn hít vào đầu section,
+     chỉ là hít thẳng chứ không mượt. Phần mờ/trượt bên dưới mới bị tắt. */
+  html{scroll-snap-type:y proximity}
+  .sheet{scroll-snap-align:start}
+  /* filmstrip ghim ngang và marquee phải nằm ngoài snap, nếu không sẽ phá hiệu ứng trượt */
+  .pin,.pin *,.mq,.mq *{scroll-snap-align:none!important}
 }
 
 /* 18.1 · chuyển cảnh giữa các section, nhẹ tay như lật slide */
@@ -1885,7 +1886,8 @@ addEventListener('load',()=>{sizePin();stripTick();});
   document.body.appendChild(rail);
   const dots=[...rail.children];
 
-  let cur=0;
+  // -1 chứ không phải 0: để lần mark() đầu tiên luôn tô sáng được chấm số 1
+  let cur=-1;
   function go(i){
     i=Math.max(0,Math.min(sheets.length-1,i));
     sheets[i].scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'start'});
