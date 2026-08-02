@@ -583,6 +583,21 @@ b,strong{font-weight:800;color:var(--fg)}
 .peek:hover .peek__c{transform:rotate(-3deg) translateY(-5px)}
 @media(prefers-reduced-motion:reduce){.peek img{transition:none}}
 
+/* 17.7b · MỤC LỤC CHƯƠNG — thay cho 3 ảnh nhỏ vốn lặp y hệt phần chi tiết phía sau.
+   Chữ lấy nguyên văn từ tiêu đề các mục nằm trong chính chương đó. */
+.toc{list-style:none;margin:0;padding:0}
+.toc li{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:baseline;
+  gap:clamp(14px,1.6vw,24px);padding:clamp(12px,1.5vw,18px) 0;
+  border-top:1px solid rgba(74,6,13,.26);transition:padding-left .4s var(--e)}
+.toc li:last-child{border-bottom:1px solid rgba(74,6,13,.26)}
+.t-deep .toc li,.t-ink .toc li{border-color:rgba(255,255,255,.22)}
+.toc li:hover{padding-left:8px}
+.toc__n{font-size:clamp(12px,1.05vw,14px);letter-spacing:.16em;font-weight:800;
+  color:#9B3A33;font-variant-numeric:tabular-nums}
+.t-deep .toc__n,.t-ink .toc__n{color:#E8A79C}
+.toc__t{font-size:clamp(16px,1.6vw,24px);font-weight:650;line-height:1.32;letter-spacing:-.012em}
+@media(prefers-reduced-motion:reduce){.toc li{transition:none}}
+
 @media(prefers-reduced-motion:reduce){
   .badge,.doc,.phone{transition:none!important}
 }
@@ -756,11 +771,14 @@ b,strong{font-weight:800;color:var(--fg)}
       <li><a href="https://akareal.vn" target="_blank" rel="noopener noreferrer">akareal.com.vn</a></li>
     </ul>
     </div>
-    <div class="peek rv" aria-hidden="true">
-      <img src="assets/aka-plan.webp" alt="" loading="lazy" class="peek__a">
-      <img src="assets/aka-post-03.webp" alt="" loading="lazy" class="peek__b">
-      <img src="assets/td-art-01.webp" alt="" loading="lazy" class="peek__c">
-    </div>
+    <ol class="toc rv">
+      <li><span class="toc__n">01</span><span class="toc__t">SCOPE OF WORK</span></li>
+      <li><span class="toc__n">02</span><span class="toc__t">Bộ nhận diện đa nền tảng</span></li>
+      <li><span class="toc__n">03</span><span class="toc__t">Fanpage</span></li>
+      <li><span class="toc__n">04</span><span class="toc__t">SOCIAL CONTENT PLAN</span></li>
+      <li><span class="toc__n">05</span><span class="toc__t">Facebook Ads</span></li>
+      <li><span class="toc__n">06</span><span class="toc__t">website</span></li>
+    </ol>
   </div>
 </section>
 
@@ -802,11 +820,13 @@ b,strong{font-weight:800;color:var(--fg)}
         <div class="bchip"><img src="assets/co-aka.png" alt="AKA REAL" loading="lazy"></div>
       </div>
     </div>
-    <div class="peek rv" aria-hidden="true">
-      <img src="assets/brand-profile.webp" alt="" loading="lazy" class="peek__a">
-      <img src="assets/brand-merch.webp" alt="" loading="lazy" class="peek__b">
-      <img src="assets/brand-cup.webp" alt="" loading="lazy" class="peek__c">
-    </div>
+    <ol class="toc rv">
+      <li><span class="toc__n">01</span><span class="toc__t">Profile công ty</span></li>
+      <li><span class="toc__n">02</span><span class="toc__t">Đồng phục</span></li>
+      <li><span class="toc__n">03</span><span class="toc__t">Túi tote</span></li>
+      <li><span class="toc__n">04</span><span class="toc__t">Ly giữ nhiệt</span></li>
+      <li><span class="toc__n">05</span><span class="toc__t">Bộ thương hiệu</span></li>
+    </ol>
   </div>
 </section>
 
@@ -833,22 +853,22 @@ b,strong{font-weight:800;color:var(--fg)}
       <button class="fig" style="grid-column:span 2" data-lb data-lb-title="Đồng phục" data-lb-brand="AKA REAL"
         data-lb-role="Phối hợp Media team xây dựng bộ nhận diện thương hiệu"
         data-lb-context="Đồng phục, ly giữ nhiệt, túi tote,.." data-lb-slot="brand-shirt">
-        <div class="doc"><div class="art r43 wipe" data-slot="brand-shirt">Đồng phục</div></div>
+        <div class="doc"><div class="art r32 wipe" data-slot="brand-shirt">Đồng phục</div></div>
         <span class="fig__c"><span class="fig__t">Đồng phục</span></span></button>
       <button class="fig" data-lb data-lb-title="Túi tote" data-lb-brand="AKA REAL"
         data-lb-role="Phối hợp Media team xây dựng bộ nhận diện thương hiệu"
         data-lb-context="Đồng phục, ly giữ nhiệt, túi tote,.." data-lb-slot="brand-merch">
-        <div class="art r11 wipe" data-slot="brand-merch">Túi tote</div>
+        <div class="doc"><div class="art r45 wipe" data-slot="brand-merch">Túi tote</div></div>
         <span class="fig__c"><span class="fig__t">Túi tote</span></span></button>
       <button class="fig" data-lb data-lb-title="Ly giữ nhiệt" data-lb-brand="AKA REAL"
         data-lb-role="Phối hợp Media team xây dựng bộ nhận diện thương hiệu"
         data-lb-context="Đồng phục, ly giữ nhiệt, túi tote,.." data-lb-slot="brand-cup">
-        <div class="art r11 wipe" data-slot="brand-cup">Ly giữ nhiệt</div>
+        <div class="doc"><div class="art r45 wipe" data-slot="brand-cup">Ly giữ nhiệt</div></div>
         <span class="fig__c"><span class="fig__t">Ly giữ nhiệt</span></span></button>
       <button class="fig" style="grid-column:span 2" data-lb data-lb-title="Bộ thương hiệu" data-lb-brand="AKA REAL"
         data-lb-role="Phối hợp Media team xây dựng bộ nhận diện thương hiệu"
         data-lb-context="Bộ thương hiệu." data-lb-slot="brand-set">
-        <div class="doc"><div class="art r169 wipe" data-slot="brand-set">Bộ thương hiệu</div></div>
+        <div class="art wipe" style="aspect-ratio:25/19;border-radius:14px;overflow:hidden" data-slot="brand-set">Bộ thương hiệu</div>
         <span class="fig__c"><span class="fig__t">Bộ thương hiệu</span></span></button>
       </div>
     </div>
@@ -913,22 +933,22 @@ b,strong{font-weight:800;color:var(--fg)}
 
     <h3 class="h3 rv mt10">Một số bài viết truyền thông</h3>
     <div class="gal gal--4 mt6" data-stg>
-      <button class="fig" data-lb data-lb-title="Year End Party 2025" data-lb-brand="AKA REAL"
-        data-lb-role="Xây dựng và quản trị nội dung" data-lb-context="Bài viết truyền thông trên Fanpage."
-        data-lb-slot="aka-post-01"><div class="doc"><div class="art r45 wipe" data-slot="aka-post-01">Bài viết</div></div>
-        <span class="fig__c"><span class="fig__t">Year End Party 2025</span></span></button>
       <button class="fig" data-lb data-lb-title="Kick-off SOLA" data-lb-brand="AKA REAL"
         data-lb-role="Xây dựng và quản trị nội dung" data-lb-context="Bài viết truyền thông trên Fanpage."
-        data-lb-slot="aka-post-02"><div class="doc"><div class="art r45 wipe" data-slot="aka-post-02">Bài viết</div></div>
+        data-lb-slot="aka-post-01"><div class="doc"><div class="art r45 wipe" data-slot="aka-post-01">Bài viết</div></div>
         <span class="fig__c"><span class="fig__t">Kick-off SOLA</span></span></button>
+      <button class="fig" data-lb data-lb-title="Mở bán Green Skyline" data-lb-brand="AKA REAL"
+        data-lb-role="Xây dựng và quản trị nội dung" data-lb-context="Bài viết truyền thông trên Fanpage."
+        data-lb-slot="aka-post-02"><div class="doc"><div class="art r45 wipe" data-slot="aka-post-02">Bài viết</div></div>
+        <span class="fig__c"><span class="fig__t">Mở bán Green Skyline</span></span></button>
       <button class="fig" data-lb data-lb-title="Khai trương The Global City" data-lb-brand="AKA REAL"
         data-lb-role="Xây dựng và quản trị nội dung" data-lb-context="Bài viết truyền thông trên Fanpage."
         data-lb-slot="aka-post-03"><div class="doc"><div class="art r45 wipe" data-slot="aka-post-03">Bài viết</div></div>
         <span class="fig__c"><span class="fig__t">Khai trương The Global City</span></span></button>
-      <button class="fig" data-lb data-lb-title="Mở bán Green Skyline" data-lb-brand="AKA REAL"
+      <button class="fig" data-lb data-lb-title="Year End Party 2025" data-lb-brand="AKA REAL"
         data-lb-role="Xây dựng và quản trị nội dung" data-lb-context="Bài viết truyền thông trên Fanpage."
         data-lb-slot="aka-post-04"><div class="doc"><div class="art r45 wipe" data-slot="aka-post-04">Bài viết</div></div>
-        <span class="fig__c"><span class="fig__t">Mở bán Green Skyline</span></span></button>
+        <span class="fig__c"><span class="fig__t">Year End Party 2025</span></span></button>
     </div>
 
     <h3 class="h3 rv mt10">Một số post tuyển dụng</h3>
@@ -1115,11 +1135,13 @@ b,strong{font-weight:800;color:var(--fg)}
       <div class="bchip"><img src="assets/br-dimai.png" alt="Dì Mai" loading="lazy"></div>
     </div>
     </div>
-    <div class="peek rv" aria-hidden="true">
-      <img src="assets/sfl-01.webp" alt="" loading="lazy" class="peek__a">
-      <img src="assets/dm-01.webp" alt="" loading="lazy" class="peek__b">
-      <img src="assets/d1-channel.webp" alt="" loading="lazy" class="peek__c">
-    </div>
+    <ol class="toc rv">
+      <li><span class="toc__n">01</span><span class="toc__t">SCOPE OF WORK</span></li>
+      <li><span class="toc__n">02</span><span class="toc__t">Strategy and Planning</span></li>
+      <li><span class="toc__n">03</span><span class="toc__t">Một số bài viết</span></li>
+      <li><span class="toc__n">04</span><span class="toc__t">Khởi động cuộc thi</span></li>
+      <li><span class="toc__n">05</span><span class="toc__t">TRUYỀN THÔNG (PR) BÁO CHÍ</span></li>
+    </ol>
   </div>
 </section>
 
@@ -1163,11 +1185,13 @@ b,strong{font-weight:800;color:var(--fg)}
         <div class="bchip"><img src="assets/br-dimai.png" alt="Dì Mai" loading="lazy"></div>
       </div>
     </div>
-    <div class="peek rv" aria-hidden="true">
-      <img src="assets/d1-master.webp" alt="" loading="lazy" class="peek__a">
-      <img src="assets/d1-dir-01.webp" alt="" loading="lazy" class="peek__b">
-      <img src="assets/d1-promo.webp" alt="" loading="lazy" class="peek__c">
-    </div>
+    <ol class="toc rv">
+      <li><span class="toc__n">01</span><span class="toc__t">MASTER PLAN</span></li>
+      <li><span class="toc__n">02</span><span class="toc__t">PROMOTION</span></li>
+      <li><span class="toc__n">03</span><span class="toc__t">Định hướng nội dung</span></li>
+      <li><span class="toc__n">04</span><span class="toc__t">Một số bài viết</span></li>
+      <li><span class="toc__n">05</span><span class="toc__t">TRUYỀN THÔNG (PR) BÁO CHÍ</span></li>
+    </ol>
   </div>
 </section>
 
@@ -1274,7 +1298,7 @@ b,strong{font-weight:800;color:var(--fg)}
       <p class="body-l rv mt6">Chịu trách nhiệm lên ý tưởng, triển khai và tổ chức
         &amp; trao giải các cuộc thi TikTok nội bộ của công ty mỗi tháng.</p>
       <ul class="pills rv mt5" style="margin-top:var(--s5)">
-        <li><a href="https://drive.google.com/drive/u/0/search?q=tiktok%20awards" target="_blank" rel="noopener noreferrer">Xem thêm: TẠI ĐÂY</a></li>
+        <li><a href="https://drive.google.com/file/d/1NQcyHPnHj3taZqX7V8vDT0bNCyRju-e6/view?usp=sharing" target="_blank" rel="noopener noreferrer">Xem thêm: TẠI ĐÂY</a></li>
       </ul>
       <button class="fig rv mt8" data-lb data-lb-title="Khởi động cuộc thi" data-lb-brand="D1 Concepts"
         data-lb-role="Lên ý tưởng, triển khai, tổ chức" data-lb-context="Cuộc thi TikTok nội bộ."
@@ -1338,11 +1362,13 @@ b,strong{font-weight:800;color:var(--fg)}
         <div class="bchip"><img src="assets/br-hdsaison.png" alt="HD SAISON" loading="lazy"></div>
       </div>
     </div>
-    <div class="peek rv" aria-hidden="true">
-      <img src="assets/pf-03.webp" alt="" loading="lazy" class="peek__a">
-      <img src="assets/fd-02.webp" alt="" loading="lazy" class="peek__b">
-      <img src="assets/hd-02.webp" alt="" loading="lazy" class="peek__c">
-    </div>
+    <ol class="toc rv">
+      <li><span class="toc__n">01</span><span class="toc__t">Content Fanpage</span></li>
+      <li><span class="toc__n">02</span><span class="toc__t">FACEBOOK ADS CAMPAIGN MANAGEMENT</span></li>
+      <li><span class="toc__n">03</span><span class="toc__t">Japanese Fine Dining</span></li>
+      <li><span class="toc__n">04</span><span class="toc__t">HD SAISON</span></li>
+      <li><span class="toc__n">05</span><span class="toc__t">certificate</span></li>
+    </ol>
   </div>
 </section>
 
@@ -1446,23 +1472,19 @@ b,strong{font-weight:800;color:var(--fg)}
     </div>
 
     <h3 class="h3 rv mt10">Một số bài viết Fanpage</h3>
-    <div class="gal gal--4 mt6" data-stg>
+    <div class="gal mt6" data-stg>
       <button class="fig" data-lb data-lb-title="Bài viết Fanpage" data-lb-brand="Japanese Fine Dining"
         data-lb-role="Lập kế hoạch và sản xuất nội dung" data-lb-context="Nội dung bài viết."
-        data-lb-slot="fd-01"><div class="doc"><div class="art r45 wipe" data-slot="fd-01">Fanpage 4:5</div></div>
+        data-lb-slot="fd-01"><div class="doc"><div class="art wipe" style="aspect-ratio:1080/1370" data-slot="fd-01">Bài viết Fanpage</div></div>
         <span class="fig__c"><span class="fig__t">Nội dung bài viết</span></span></button>
       <button class="fig" data-lb data-lb-title="Bài viết Fanpage" data-lb-brand="Japanese Fine Dining"
-        data-lb-role="Lập kế hoạch và sản xuất nội dung" data-lb-context="Hình ảnh bài viết."
-        data-lb-slot="fd-02"><div class="doc"><div class="art r45 wipe" data-slot="fd-02">Fanpage 4:5</div></div>
-        <span class="fig__c"><span class="fig__t">Hình ảnh bài viết</span></span></button>
-      <button class="fig" data-lb data-lb-title="Bài viết Fanpage" data-lb-brand="Japanese Fine Dining"
-        data-lb-role="Lập kế hoạch và sản xuất nội dung" data-lb-context="Nội dung bài viết Wagyu."
-        data-lb-slot="fd-03"><div class="doc"><div class="art r45 wipe" data-slot="fd-03">Fanpage 4:5</div></div>
+        data-lb-role="Lập kế hoạch và sản xuất nội dung" data-lb-context="Nội dung bài viết."
+        data-lb-slot="fd-02"><div class="doc"><div class="art wipe" style="aspect-ratio:1096/1150" data-slot="fd-02">Bài viết Fanpage</div></div>
         <span class="fig__c"><span class="fig__t">Nội dung bài viết</span></span></button>
       <button class="fig" data-lb data-lb-title="Bài viết Fanpage" data-lb-brand="Japanese Fine Dining"
-        data-lb-role="Lập kế hoạch và sản xuất nội dung" data-lb-context="Hình ảnh bài viết Wagyu."
-        data-lb-slot="fd-04"><div class="doc"><div class="art r45 wipe" data-slot="fd-04">Fanpage 4:5</div></div>
-        <span class="fig__c"><span class="fig__t">Hình ảnh bài viết</span></span></button>
+        data-lb-role="Lập kế hoạch và sản xuất nội dung" data-lb-context="Nội dung bài viết."
+        data-lb-slot="fd-03"><div class="doc"><div class="art wipe" style="aspect-ratio:1100/1144" data-slot="fd-03">Bài viết Fanpage</div></div>
+        <span class="fig__c"><span class="fig__t">Nội dung bài viết</span></span></button>
     </div>
   </div>
 </section>
@@ -1562,7 +1584,7 @@ b,strong{font-weight:800;color:var(--fg)}
         <span class="fig__c"><span class="fig__t">MindX Technology School</span></span></button>
       <button class="fig" data-lb data-lb-title="Chứng chỉ" data-lb-brand="IMTA"
         data-lb-role="Chứng chỉ" data-lb-context="Bản chứng chỉ." data-lb-slot="cert-04">
-        <div class="doc"><div class="art r34 wipe" data-slot="cert-04">Chứng chỉ 3:4</div></div>
+        <div class="doc"><div class="art wipe" style="aspect-ratio:1100/1554" data-slot="cert-04">Chứng chỉ</div></div>
         <span class="fig__c"><span class="fig__t">IMTA</span></span></button>
     </div>
     <p class="rv mt5" style="margin-top:var(--s5)"><span class="need">[CẦN BỔ SUNG: tên và năm từng chứng chỉ hiển thị dưới ảnh]</span></p>
@@ -1574,7 +1596,7 @@ b,strong{font-weight:800;color:var(--fg)}
   <div class="glow"></div>
   <div class="wrap cols c-7-5" style="align-items:center">
     <div>
-      <h2 class="d1 stk" data-split>Me!</h2>
+      <h2 class="d1 stk" data-split>Contact me</h2>
       <div class="cols c-3 gap-s mt9" style="gap:var(--s5)" data-stg>
         <a class="box" href="https://www.linkedin.com/in/diemnguyen-mkt/" target="_blank" rel="noopener noreferrer">
           <p class="box__k"><svg class="" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"/></svg>Linkedin</p><p class="box__t" style="font-size:15px;overflow-wrap:anywhere;line-height:1.45;margin:0">linkedin.com/in/diemnguyen-mkt/</p></a>
