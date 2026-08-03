@@ -156,9 +156,9 @@ body.mode-rvw .need{display:inline-block}
 /* ── 05 CARD STACK ────────────────────────────────────────── */
 .stack{position:relative}
 .chap{position:sticky;top:0;z-index:1;min-height:100svh;display:flex;align-items:center;
-  border-radius:0 0 clamp(16px,3vw,40px) clamp(16px,3vw,40px);overflow:hidden}
+  overflow:hidden}
 .mq,.pin{position:relative;z-index:2}
-.after-chap{position:relative;z-index:2;box-shadow:0 -40px 80px -40px rgba(0,0,0,.35)}
+.after-chap{position:relative;z-index:2}
 
 /* ── 05b TRANG MỞ ĐẦU ─────────────────────────────────────────
    Ảnh bìa không còn là một ô chữ nhật đặt cạnh chữ. Ảnh tràn ra mép
@@ -292,11 +292,11 @@ body.mode-rvw .need{display:inline-block}
 .card__t{font-size:clamp(19px,1.9vw,26px);font-weight:700;color:var(--fg);letter-spacing:-.03em;
   margin:var(--s4) 0 8px;line-height:1.18;text-wrap:balance;hyphens:none}
 .card__o{font-size:13.5px;color:var(--dim);font-weight:600;text-wrap:balance}
-.card__lg{margin-top:var(--s5);background:#fff;border-radius:12px;
-  padding:clamp(12px,1.2vw,18px) clamp(16px,1.8vw,24px);
-  width:100%;display:flex;align-items:center;justify-content:center;
-  min-height:clamp(76px,7vw,104px)}
-.card__lg img{max-height:clamp(46px,4.4vw,64px);max-width:100%;width:auto;object-fit:contain}
+.card__lg{margin-top:var(--s5);background:#FFFFFF;border-radius:14px;
+  padding:clamp(10px,1.1vw,16px);width:100%;aspect-ratio:2/1;
+  display:grid;place-items:center;border:1px solid rgba(74,6,13,.08);
+  box-shadow:0 10px 26px -18px rgba(20,2,5,.5)}
+.card__lg img{width:88%;height:82%;object-fit:contain}
 @media(max-width:900px){
   .pin{height:auto}
   .pin__in{position:static;height:auto;padding:var(--s8) 0}
@@ -611,13 +611,20 @@ b,strong{font-weight:800;color:var(--fg)}
   .webnews{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* 17.14 · CHIP THƯƠNG HIỆU trên thẻ chương */
-.brandrow{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap}
-.bchip{background:#fff;border-radius:18px;padding:clamp(16px,1.7vw,24px) clamp(24px,2.6vw,38px);
-  display:flex;align-items:center;justify-content:center;min-height:clamp(96px,8.5vw,124px);
-  box-shadow:4px 4px 0 rgba(74,6,13,.14);transition:transform .4s var(--e)}
-.t-deep .bchip,.t-ink .bchip{box-shadow:4px 4px 0 rgba(255,255,255,.14)}
-.bchip:hover{transform:translate(-2px,-2px)}
-.bchip img{height:clamp(58px,5.4vw,84px);width:auto;max-width:min(300px,44vw);object-fit:contain}
+/* Ô LOGO CHUẨN — mọi logo trên trang dùng chung đúng một khung.
+   Khung có tỉ lệ 2:1 cố định, logo canh giữa và chiếm cùng một vùng an toàn,
+   nên logo ngang như HD SAISON và logo vuông như Nhan Sushi nhìn bằng nhau. */
+.brandrow{--lgw:clamp(148px,19vw,258px);display:grid;gap:clamp(12px,1.3vw,18px);
+  grid-template-columns:repeat(auto-fit,minmax(0,var(--lgw)));
+  justify-content:start;align-items:stretch}
+.bchip{background:#FFFFFF;border-radius:14px;
+  aspect-ratio:2/1;display:grid;place-items:center;padding:clamp(10px,1.1vw,16px);
+  border:1px solid rgba(74,6,13,.08);
+  box-shadow:0 10px 26px -18px rgba(20,2,5,.5);transition:transform .4s var(--e)}
+.t-deep .bchip,.t-ink .bchip{border-color:rgba(255,255,255,.14);
+  box-shadow:0 14px 30px -18px rgba(0,0,0,.7)}
+.bchip:hover{transform:translateY(-4px)}
+.bchip img{width:88%;height:82%;object-fit:contain;object-position:center}
 
 /* 17.15 · THẺ CHƯƠNG có dải ảnh thật xếp chồng, hết cảm giác trống trơn */
 .chapgrid{display:grid;grid-template-columns:6fr 5fr;gap:var(--s9);align-items:center}
@@ -676,6 +683,15 @@ a,.pills a,.pills li,.box__t,.fig__t{overflow-wrap:break-word;word-break:normal;
 }
 .port{border-radius:clamp(14px,1.6vw,22px);overflow:hidden;
   box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+/* icon liên hệ: huy hiệu tròn, to và tương phản hẳn, không còn mờ tịt */
+.ctc .box__k{font-size:clamp(11px,.95vw,13px);letter-spacing:.13em;text-transform:uppercase;
+  color:#F3C8C1;gap:12px}
+.ctc .box__k svg{width:20px;height:20px;padding:9px;box-sizing:content-box;
+  background:var(--secondary);color:#FFFFFF;border-radius:99px;flex:none;
+  transition:transform .4s var(--e),background .4s}
+.ctc .box:hover .box__k svg{transform:scale(1.08);background:#E07A6E}
+.ctc .box{border:1px solid rgba(255,255,255,.14)}
+.ctc .box:hover{border-color:rgba(255,255,255,.34)}
 
 @media(prefers-reduced-motion:reduce){
   .badge,.doc,.phone{transition:none!important}
@@ -2017,6 +2033,30 @@ addEventListener('load',()=>{sizePin();stripTick();});
   });
 })();
 
+
+/* ═══════════════════════════════════════════════════════════
+   DẢI MÀU LIÊN TỤC TỪ ĐẦU TỚI CUỐI TRANG
+   Mỗi tấm giữ đúng tông của mình ở giữa, còn hai mép trên dưới
+   chạy về đúng nửa đường tới tông của tấm liền kề. Hai tấm cạnh
+   nhau vì thế gặp nhau ở cùng một màu, không còn đường cắt.
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+  const blocks=[...document.querySelectorAll('.stack > .sheet, .stack > .pin, .stack > .mq')];
+  if(blocks.length<2) return;
+  const tones=blocks.map(b=>{b.style.backgroundImage='none';
+    return getComputedStyle(b).backgroundColor;});
+  const num=c=>(c.match(/[\d.]+/g)||[0,0,0]).slice(0,3).map(Number);
+  const mix=(a,b,t)=>{const A=num(a),B=num(b);
+    return 'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(',')+')';};
+  const E='clamp(80px,12vh,190px)';
+  blocks.forEach((el,i)=>{
+    const own=tones[i];
+    const top=i>0?mix(tones[i-1],own,.5):own;
+    const bot=i<tones.length-1?mix(own,tones[i+1],.5):own;
+    el.style.backgroundColor=own;
+    el.style.backgroundImage='linear-gradient(180deg,'+top+' 0,'+own+' '+E+','+own+' calc(100% - '+E+'),'+bot+' 100%)';
+  });
+})();
 </script>
 </body>
 </html>
