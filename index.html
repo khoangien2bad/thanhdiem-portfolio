@@ -45,7 +45,8 @@
 /* ── 00 TOKENS ────────────────────────────────────────────── */
 :root{
   --primary:#4A060D; --accent:#3B050A; --secondary:#C86358;
-  --soft:#F5EAE6; --surface:#FFFFFF; --muted:#966F73; --body:#8D6267;
+  --soft:#F3E7E2; --surface:#FFFFFF; --paper:#FCF8F6; --ink:#33070C;
+  --muted:#966F73; --body:#8D6267;
   --border:rgba(0,0,0,.10); --border-l:rgba(255,255,255,.16);
 
   --font:'Manrope','Be Vietnam Pro',system-ui,Arial,sans-serif;
@@ -126,14 +127,21 @@ body.mode-rvw .need{display:inline-block}
 /* ── 04 CHỦ ĐỀ THEO CHƯƠNG ────────────────────────────────── */
 .sheet{position:relative;z-index:2;background:var(--bg);color:var(--dim);
   padding:clamp(72px,9vw,132px) 0;transition:background .9s var(--e),color .9s var(--e)}
-.t-light{--bg:var(--surface);--fg:var(--primary);--dim:var(--body);--line:var(--border);
-  --chip:var(--soft);--chipfg:var(--primary)}
+/* MỘT DẢI MÀU DUY NHẤT CHO CẢ TRANG.
+   Trước đây trang nhảy trắng tinh -> hồng -> gần đen nên chuyển cảnh bị gượng.
+   Giờ chỉ còn một họ màu mận: giấy ấm, hồng phấn, mận, mực — cùng gốc #4A060D. */
+.t-light{--bg:var(--paper);--fg:var(--primary);--dim:var(--body);--line:var(--border);
+  --chip:var(--soft);--chipfg:var(--primary);--seam:rgba(74,6,13,.055)}
 .t-soft{--bg:var(--soft);--fg:var(--primary);--dim:#7C565A;--line:rgba(74,6,13,.12);
-  --chip:#FFFFFF;--chipfg:var(--primary)}
+  --chip:#FFFFFF;--chipfg:var(--primary);--seam:rgba(74,6,13,.07)}
 .t-deep{--bg:var(--primary);--fg:#FFFFFF;--dim:rgba(255,255,255,.78);--line:var(--border-l);
-  --chip:rgba(255,255,255,.12);--chipfg:#FFFFFF}
-.t-ink{--bg:#2A0407;--fg:#FFFFFF;--dim:rgba(255,255,255,.72);--line:var(--border-l);
-  --chip:rgba(255,255,255,.1);--chipfg:#FFFFFF}
+  --chip:rgba(255,255,255,.12);--chipfg:#FFFFFF;--seam:rgba(0,0,0,.34)}
+.t-ink{--bg:var(--ink);--fg:#FFFFFF;--dim:rgba(255,255,255,.72);--line:var(--border-l);
+  --chip:rgba(255,255,255,.1);--chipfg:#FFFFFF;--seam:rgba(0,0,0,.34)}
+
+/* mép trên mỗi tấm tối đi rất nhẹ rồi tan dần — hai tấm cạnh nhau
+   không còn cắt nhau bằng một đường thẳng cứng */
+.sheet,.pin,.mq{background-image:linear-gradient(180deg,var(--seam,transparent) 0,transparent clamp(110px,14vh,220px))}
 
 /* hạt nhiễu rất nhẹ, chống dải màu trên nền lớn */
 .sheet::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
@@ -151,6 +159,44 @@ body.mode-rvw .need{display:inline-block}
   border-radius:0 0 clamp(16px,3vw,40px) clamp(16px,3vw,40px);overflow:hidden}
 .mq,.pin{position:relative;z-index:2}
 .after-chap{position:relative;z-index:2;box-shadow:0 -40px 80px -40px rgba(0,0,0,.35)}
+
+/* ── 05b TRANG MỞ ĐẦU ─────────────────────────────────────────
+   Ảnh bìa không còn là một ô chữ nhật đặt cạnh chữ. Ảnh tràn ra mép
+   phải rồi tan dần vào nền mận, chữ nằm đè lên phần đã tan. Trên điện
+   thoại ảnh lùi hẳn xuống làm nền, chữ đứng trọn một cột. */
+.hero{align-items:stretch}
+.hero__ph{position:absolute;inset:0 0 0 auto;width:min(56%,860px);z-index:1;overflow:hidden}
+.hero__ph .art{position:absolute;inset:0;border-radius:0;background:transparent}
+.hero__ph .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:50% 22%;transform:scale(1.06)}
+.hero__veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg,var(--primary) 0%,var(--primary) 26%,rgba(74,6,13,.86) 46%,rgba(74,6,13,.30) 68%,rgba(74,6,13,.12) 100%),
+    linear-gradient(180deg,rgba(74,6,13,.55) 0%,transparent 26%,transparent 62%,rgba(74,6,13,.72) 100%)}
+.hero__in{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;
+  min-height:100svh;padding-top:clamp(96px,13vh,140px);padding-bottom:clamp(48px,8vh,90px);
+  max-width:min(100%,var(--max))}
+.d0{font-size:clamp(58px,13.2vw,214px);line-height:.84;letter-spacing:-.06em;font-weight:800}
+.hero__date{letter-spacing:.34em}
+.hero .d0{margin-top:clamp(14px,2vh,26px)}
+.hero__by{margin-top:clamp(18px,2.4vh,32px);max-width:34ch}
+.hero__go{margin-top:clamp(22px,3vh,40px)}
+@media(max-width:991px){
+  .hero__ph{inset:0;width:100%}
+  .hero__ph .art img{object-position:50% 18%}
+  .hero__veil{background:
+    linear-gradient(180deg,rgba(74,6,13,.86) 0%,rgba(74,6,13,.62) 34%,rgba(74,6,13,.90) 68%,var(--primary) 100%)}
+  .hero__in{justify-content:flex-end;padding-bottom:clamp(56px,10vh,96px)}
+  .hero__by{max-width:26ch}
+}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    .hero__ph .art img{animation:heroDrift linear both;animation-timeline:scroll(root);
+      animation-range:0 100vh}
+    @keyframes heroDrift{from{transform:scale(1.06) translateY(0)}
+      to{transform:scale(1.14) translateY(-4%)}}
+  }
+}
 
 /* ── 06 CHỮ TÁCH TỪ / TÁCH DÒNG ──────────────────────────── */
 .split{display:inline-block}
@@ -241,11 +287,13 @@ body.mode-rvw .need{display:inline-block}
 .card:hover{transform:translateY(-8px)}
 .card__y{font-size:13px;font-weight:800;color:var(--secondary);letter-spacing:.04em}
 .card__t{font-size:clamp(19px,1.9vw,26px);font-weight:700;color:var(--fg);letter-spacing:-.03em;
-  margin:var(--s4) 0 8px;line-height:1.14}
-.card__o{font-size:13.5px;color:var(--dim);font-weight:600}
-.card__lg{margin-top:var(--s5);background:#fff;border-radius:8px;padding:10px 14px;
-  width:max-content;max-width:100%;display:flex;align-items:center;min-height:52px}
-.card__lg img{max-height:32px;max-width:150px;width:auto;object-fit:contain}
+  margin:var(--s4) 0 8px;line-height:1.18;text-wrap:balance;hyphens:none}
+.card__o{font-size:13.5px;color:var(--dim);font-weight:600;text-wrap:balance}
+.card__lg{margin-top:var(--s5);background:#fff;border-radius:12px;
+  padding:clamp(12px,1.2vw,18px) clamp(16px,1.8vw,24px);
+  width:100%;display:flex;align-items:center;justify-content:center;
+  min-height:clamp(76px,7vw,104px)}
+.card__lg img{max-height:clamp(46px,4.4vw,64px);max-width:100%;width:auto;object-fit:contain}
 @media(max-width:900px){
   .pin{height:auto}
   .pin__in{position:static;height:auto;padding:var(--s8) 0}
@@ -494,7 +542,7 @@ b,strong{font-weight:800;color:var(--fg)}
 .fig:hover .doc{transform:translateY(-5px);box-shadow:0 3px 0 rgba(74,6,13,.09),0 22px 40px -22px rgba(74,6,13,.5)}
 .doc .art{background:#FFFFFF;border-radius:8px}
 .doc .art img{object-fit:contain!important;transform:none!important}
-[data-slot="me-portrait"] img{object-fit:contain!important}
+
 .doc .art--has{padding:0}
 
 /* 17.8 · NỀN HOA VĂN ICON (rất mờ, không cướp sự chú ý) */
@@ -523,14 +571,13 @@ b,strong{font-weight:800;color:var(--fg)}
 .t-deep .pop,.t-ink .pop{box-shadow:5px 5px 0 rgba(255,255,255,.10)}
 
 /* 17.12 · LƯỚI LOGO gọn hơn, nền trong suốt */
-.logos div{min-height:118px}
-.logos img{max-height:44px;max-width:150px;filter:grayscale(1);opacity:.55}
+.logos div{min-height:clamp(104px,9vw,132px)}
+.logos img{max-height:clamp(38px,3.4vw,52px);max-width:170px;filter:grayscale(1);opacity:.62}
 .logos div:hover img{filter:none;opacity:1;transform:scale(1.06)}
 .logos img{transition:filter .4s,opacity .4s,transform .4s var(--e)}
 
 /* 17.13 · thẻ kinh nghiệm: logo to hơn, dễ nhận */
-.card__lg{background:#fff;border-radius:10px;padding:12px 16px;min-height:62px}
-.card__lg img{max-height:38px;max-width:170px}
+
 
 @media(max-width:575px){
   .badge{padding:13px 18px;gap:11px}
@@ -562,11 +609,12 @@ b,strong{font-weight:800;color:var(--fg)}
 
 /* 17.14 · CHIP THƯƠNG HIỆU trên thẻ chương */
 .brandrow{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap}
-.bchip{background:#fff;border-radius:18px;padding:18px 30px;display:flex;align-items:center;
+.bchip{background:#fff;border-radius:18px;padding:clamp(16px,1.7vw,24px) clamp(24px,2.6vw,38px);
+  display:flex;align-items:center;justify-content:center;min-height:clamp(96px,8.5vw,124px);
   box-shadow:4px 4px 0 rgba(74,6,13,.14);transition:transform .4s var(--e)}
 .t-deep .bchip,.t-ink .bchip{box-shadow:4px 4px 0 rgba(255,255,255,.14)}
 .bchip:hover{transform:translate(-2px,-2px)}
-.bchip img{height:clamp(46px,4.4vw,68px);width:auto;max-width:260px;object-fit:contain}
+.bchip img{height:clamp(58px,5.4vw,84px);width:auto;max-width:min(300px,44vw);object-fit:contain}
 
 /* 17.15 · THẺ CHƯƠNG có dải ảnh thật xếp chồng, hết cảm giác trống trơn */
 .chapgrid{display:grid;grid-template-columns:6fr 5fr;gap:var(--s9);align-items:center}
@@ -595,8 +643,36 @@ b,strong{font-weight:800;color:var(--fg)}
 .toc__n{font-size:clamp(12px,1.05vw,14px);letter-spacing:.16em;font-weight:800;
   color:#9B3A33;font-variant-numeric:tabular-nums}
 .t-deep .toc__n,.t-ink .toc__n{color:#E8A79C}
-.toc__t{font-size:clamp(16px,1.6vw,24px);font-weight:650;line-height:1.32;letter-spacing:-.012em}
+/* ĐỒNG BỘ CHỮ MỤC LỤC: in hoa hết, không còn chỗ hoa chỗ thường.
+   Chữ gốc trong HTML giữ nguyên văn, chỉ đổi cách hiển thị. */
+.toc__t{font-size:clamp(14px,1.32vw,20px);font-weight:750;line-height:1.34;
+  letter-spacing:.045em;text-transform:uppercase;text-wrap:balance}
 @media(prefers-reduced-motion:reduce){.toc li{transition:none}}
+
+/* 17.7d · CHUẨN HOÁ NGẮT DÒNG TOÀN TRANG
+   Tiêu đề tự cân số chữ mỗi dòng, đoạn văn không để lại một chữ lẻ
+   đứng trơ ở dòng cuối, tên riêng và địa chỉ mail không bị bẻ giữa chữ. */
+.d0,.d1,.d2,.h1,.h2,.h3,.lead,.card__t,.card__o,.nrow__t,.fig__t,.fig__s,
+.box__t,.toc__t,.stk{text-wrap:balance}
+.body,.body-l,p.body,p.body-l{text-wrap:pretty}
+a,.pills a,.pills li,.box__t,.fig__t{overflow-wrap:break-word;word-break:normal;hyphens:none}
+.kick{text-wrap:nowrap}
+@media(max-width:575px){.kick{text-wrap:balance}}
+
+/* 17.7c · KHỐI LIÊN HỆ — mỗi dòng chiếm trọn bề ngang nên email và
+   linkedin không còn bị bẻ ngang giữa chữ như trước. */
+.ctc{display:grid;gap:var(--s4)}
+.ctc .box{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
+  gap:clamp(16px,2vw,28px);padding:clamp(18px,1.9vw,26px) clamp(20px,2.2vw,30px)}
+.ctc .box__k{margin:0;white-space:nowrap}
+.ctc .box__t{font-size:clamp(15px,1.35vw,19px);line-height:1.4;
+  overflow-wrap:normal;word-break:normal;text-align:right}
+@media(max-width:520px){
+  .ctc .box{grid-template-columns:minmax(0,1fr);gap:6px}
+  .ctc .box__t{text-align:left;overflow-wrap:anywhere}
+}
+.port{border-radius:clamp(14px,1.6vw,22px);overflow:hidden;
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
 
 @media(prefers-reduced-motion:reduce){
   .badge,.doc,.phone{transition:none!important}
@@ -631,20 +707,19 @@ b,strong{font-weight:800;color:var(--fg)}
 <div class="stack">
 
 <!-- ═══ HERO ═══ -->
-<section class="sheet chap t-deep" id="top">
+<section class="sheet chap t-deep hero" id="top">
+  <div class="hero__ph" aria-hidden="true"><div class="art" data-slot="cover"></div></div>
+  <div class="hero__veil" aria-hidden="true"></div>
   <div class="glow"></div>
-  <div class="wrap cols c-7-5" style="align-items:center">
-    <div>
-      <span class="kick rv">20.06.1998</span>
-      <h1 class="d1 stk" data-split>PORTFOLIO</h1>
-      <p class="lead rv mt6">Portfolio by Nguyen Thi Thanh Diem</p>
-      <ul class="pills rv mt6">
-        <li><a href="#experience">My experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-    <div class="rv"><div class="art r45 wipe" data-slot="cover">Ảnh bìa 4:5</div></div>
+  <div class="wrap hero__in">
+    <span class="kick rv hero__date">20.06.1998</span>
+    <h1 class="d0 stk" data-split>PORTFOLIO</h1>
+    <p class="lead rv hero__by">Portfolio by Nguyen Thi Thanh Diem</p>
+    <ul class="pills rv hero__go">
+      <li><a href="#experience">My experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
   </div>
 </section>
 
@@ -765,9 +840,9 @@ b,strong{font-weight:800;color:var(--fg)}
     <h2 class="d2 stk" data-split>Social Marketing Executive</h2>
     <p class="lead rv mt6">04/2024 - 06/2026<br>Công ty CP BĐS AKA REAL</p>
     <ul class="pills rv mt6">
-      <li><a href="https://www.facebook.com/akarealofficial?locale=vi_VN" target="_blank" rel="noopener noreferrer">AKA REAL</a></li>
+      <li><a href="https://www.facebook.com/akarealofficial?locale=vi_VN" target="_blank" rel="noopener noreferrer">Fanpage AKA REAL</a></li>
       <li><a href="https://www.facebook.com/tuyendungakareal?locale=vi_VN" target="_blank" rel="noopener noreferrer">Tuyển dụng AKA REAL</a></li>
-      <li><a href="https://www.tiktok.com/@akarealofficial" target="_blank" rel="noopener noreferrer">AKA REAL</a></li>
+      <li><a href="https://www.tiktok.com/@akarealofficial" target="_blank" rel="noopener noreferrer">Tiktok AKA REAL</a></li>
       <li><a href="https://akareal.vn" target="_blank" rel="noopener noreferrer">akareal.com.vn</a></li>
     </ul>
     </div>
@@ -825,7 +900,6 @@ b,strong{font-weight:800;color:var(--fg)}
       <li><span class="toc__n">02</span><span class="toc__t">Đồng phục</span></li>
       <li><span class="toc__n">03</span><span class="toc__t">Túi tote</span></li>
       <li><span class="toc__n">04</span><span class="toc__t">Ly giữ nhiệt</span></li>
-      <li><span class="toc__n">05</span><span class="toc__t">Bộ thương hiệu</span></li>
     </ol>
   </div>
 </section>
@@ -865,18 +939,13 @@ b,strong{font-weight:800;color:var(--fg)}
         data-lb-context="Đồng phục, ly giữ nhiệt, túi tote,.." data-lb-slot="brand-cup">
         <div class="doc"><div class="art r45 wipe" data-slot="brand-cup">Ly giữ nhiệt</div></div>
         <span class="fig__c"><span class="fig__t">Ly giữ nhiệt</span></span></button>
-      <button class="fig" style="grid-column:span 2" data-lb data-lb-title="Bộ thương hiệu" data-lb-brand="AKA REAL"
-        data-lb-role="Phối hợp Media team xây dựng bộ nhận diện thương hiệu"
-        data-lb-context="Bộ thương hiệu." data-lb-slot="brand-set">
-        <div class="art wipe" style="aspect-ratio:25/19;border-radius:14px;overflow:hidden" data-slot="brand-set">Bộ thương hiệu</div>
-        <span class="fig__c"><span class="fig__t">Bộ thương hiệu</span></span></button>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ═══ FANPAGE + THÀNH TÍCH ═══ -->
-<section class="sheet t-ink" id="aka-social">
+<section class="sheet t-deep" id="aka-social">
   <div class="glow"></div>
   <div class="wrap">
     <span class="kick rv">social media execution</span>
@@ -1022,7 +1091,7 @@ b,strong{font-weight:800;color:var(--fg)}
 </section>
 
 <!-- ═══ TIKTOK AKA REAL ═══ -->
-<section class="sheet t-ink" id="aka-tiktok">
+<section class="sheet t-deep" id="aka-tiktok">
   <div class="wrap cols c-5-7">
     <div class="sticky-col">
       <span class="kick rv">tiktok</span>
@@ -1290,7 +1359,7 @@ b,strong{font-weight:800;color:var(--fg)}
 </section>
 
 <!-- ═══ TIKTOK AWARDS ═══ -->
-<section class="sheet t-ink" id="awards">
+<section class="sheet t-deep" id="awards">
   <div class="wrap cols c-7-5">
     <div>
       <span class="kick rv">TikTok awards</span>
@@ -1402,7 +1471,7 @@ b,strong{font-weight:800;color:var(--fg)}
 </section>
 
 <!-- ═══ FACEBOOK ADS CAMPAIGN MANAGEMENT ═══ -->
-<section class="sheet t-ink" id="ads-management">
+<section class="sheet t-deep" id="ads-management">
   <div class="glow"></div>
   <div class="wrap">
     <h2 class="h2" data-split style="margin-bottom:var(--s8)">FACEBOOK ADS CAMPAIGN MANAGEMENT</h2>
@@ -1458,15 +1527,16 @@ b,strong{font-weight:800;color:var(--fg)}
           data-lb-role="Lập kế hoạch nội dung hàng tháng" data-lb-context="Content Calendar đồng bộ 4 nền tảng."
           data-lb-slot="fd-calendar"><div class="doc"><div class="art r169 wipe" data-slot="fd-calendar">Content calendar 16:9</div></div>
           <span class="fig__c"><span class="fig__t">Content Calendar</span></span></button>
-        <div class="gal gal--2 mt5" style="margin-top:var(--s5)">
+        <div class="cols c-7-5 gap-s mt5" style="margin-top:var(--s5);align-items:start">
           <button class="fig" data-lb data-lb-title="BRIEF VIDEO" data-lb-brand="Japanese Fine Dining"
             data-lb-role="Viết brief video" data-lb-context="Brief cho Hero Video định vị thương hiệu."
             data-lb-slot="fd-brief"><div class="doc"><div class="art r169 wipe" data-slot="fd-brief">Brief video 16:9</div></div>
             <span class="fig__c"><span class="fig__t">BRIEF VIDEO</span></span></button>
-          <button class="fig" data-lb data-lb-title="Hero Video" data-lb-brand="Japanese Fine Dining"
-            data-lb-role="Định hướng nội dung branding" data-lb-context="Tuyến Branding, Hero Video."
-            data-lb-slot="fd-hero"><div class="art r169 wipe" data-slot="fd-hero">Hero video 16:9</div>
-            <span class="fig__c"><span class="fig__t">Hero Video</span></span></button>
+          <figure class="fig"><div class="phone phone--v vwrap"><span class="vtag">Video</span>
+            <video controls playsinline preload="none" poster="assets/fd-hero.webp">
+            <source src="assets/video/fd-hero.mp4" type="video/mp4"></video></div>
+            <figcaption class="fig__c"><span class="fig__t">Hero Video</span>
+            <span class="fig__s">Video gốc, bấm để phát</span></figcaption></figure>
         </div>
       </div>
     </div>
@@ -1536,7 +1606,7 @@ b,strong{font-weight:800;color:var(--fg)}
 </section>
 
 <!-- ═══ NỀN TẢNG TIKTOK ═══ -->
-<section class="sheet t-ink" id="hd-tiktok">
+<section class="sheet t-deep" id="hd-tiktok">
   <div class="wrap cols c-5-7">
     <div class="sticky-col">
       <h2 class="h2"><span class="line"><span>Nền tảng</span></span><span class="line"><span>Tiktok</span></span></h2>
@@ -1596,17 +1666,17 @@ b,strong{font-weight:800;color:var(--fg)}
   <div class="glow"></div>
   <div class="wrap cols c-7-5" style="align-items:center">
     <div>
-      <h2 class="d1 stk" data-split>Contact me</h2>
-      <div class="cols c-3 gap-s mt9" style="gap:var(--s5)" data-stg>
+      <h2 class="d1 stk" data-split>Contact me!</h2>
+      <div class="ctc mt9" data-stg>
         <a class="box" href="https://www.linkedin.com/in/diemnguyen-mkt/" target="_blank" rel="noopener noreferrer">
-          <p class="box__k"><svg class="" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"/></svg>Linkedin</p><p class="box__t" style="font-size:15px;overflow-wrap:anywhere;line-height:1.45;margin:0">linkedin.com/in/diemnguyen-mkt/</p></a>
+          <p class="box__k"><svg class="" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"/></svg>Linkedin</p><p class="box__t" style="margin:0">linkedin.com/in/diemnguyen-mkt/</p></a>
         <a class="box" href="mailto:diemthanhnguyen213@gmail.com">
-          <p class="box__k"><svg class="" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85L122.51,149a8,8,0,0,0,10.82,0l12-11,58,53.05H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>Email</p><p class="box__t" style="font-size:15px;overflow-wrap:anywhere;line-height:1.45;margin:0">diemthanhnguyen213@gmail.com</p></a>
+          <p class="box__k"><svg class="" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85L122.51,149a8,8,0,0,0,10.82,0l12-11,58,53.05H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>Email</p><p class="box__t" style="margin:0">diemthanhnguyen213@gmail.com</p></a>
         <a class="box" href="tel:+84363966363">
-          <p class="box__k"><svg class="" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8,8,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/></svg>Phone</p><p class="box__t" style="font-size:16px;margin:0">036 396 63 63</p></a>
+          <p class="box__k"><svg class="" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8,8,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/></svg>Phone</p><p class="box__t" style="margin:0">036 396 63 63</p></a>
       </div>
     </div>
-    <div class="rv"><div class="art r45 wipe" data-slot="me-portrait" style="background:transparent">Chân dung</div></div>
+    <div class="rv"><div class="port"><div class="art r11 wipe" data-slot="me-portrait">Chân dung</div></div></div>
   </div>
 </section>
 
