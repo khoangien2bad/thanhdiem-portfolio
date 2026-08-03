@@ -232,6 +232,9 @@ body.mode-rvw .need{display:inline-block}
   .rv,[data-stg]>*{opacity:1!important;transform:none!important;transition:none!important}
   .split .w>span,.line>span{transform:none!important;transition:none!important}
   .chap{position:static;min-height:auto;padding:var(--s10) 0}
+  /* Trang mở đầu vẫn phải là một khung ảnh trọn màn hình. Nếu để static,
+     lớp ảnh bìa mất mốc neo và bị kéo dài hết chiều cao trang. */
+  .chap.hero{position:relative;min-height:100svh;padding:0}
   #pre{display:none!important}
   .mq__t{animation:none!important}
   .strip{transform:none!important}
